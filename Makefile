@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m64 -pipe -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 CXXFLAGS      = -m64 -pipe -O2 -std=c++0x -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -I. -Igcvdb -Igcvdb/md5 -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I. -I.
+INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -I. -Iheaders -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I. -I.
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
 LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -45,9 +45,9 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = main.cpp \
-		mainwindow.cpp \
-		SingleApplication.cpp qrc_Resources.cpp \
+SOURCES       = source/main.cpp \
+		source/mainwindow.cpp \
+		source/SingleApplication.cpp qrc_Resources.cpp \
 		moc_mainwindow.cpp \
 		moc_Scanner.cpp \
 		moc_SingleApplication.cpp
@@ -125,7 +125,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		PenguAV.pro \
-		Resources.qrc \
+		resources/Resources.qrc \
 		PenguAV.pro
 QMAKE_TARGET  = PenguAV
 DESTDIR       = #avoid trailing-slash linebreak
@@ -226,7 +226,7 @@ Makefile: PenguAV.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.c
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		PenguAV.pro \
-		Resources.qrc \
+		resources/Resources.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt5Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Gui.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Core.prl
@@ -298,7 +298,7 @@ Makefile: PenguAV.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.c
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 PenguAV.pro:
-Resources.qrc:
+resources/Resources.qrc:
 /usr/lib/x86_64-linux-gnu/libQt5Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Gui.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Core.prl:
@@ -309,7 +309,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/PenguAV1.0.0 || mkdir -p .tmp/PenguAV1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents Resources.qrc .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents FileOperations.h ftp.h Intialization.h mainwindow.h Scanner.h SingleApplication.h .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents main.cpp mainwindow.cpp SingleApplication.cpp .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents mainwindow.ui .tmp/PenguAV1.0.0/ && (cd `dirname .tmp/PenguAV1.0.0` && $(TAR) PenguAV1.0.0.tar PenguAV1.0.0 && $(COMPRESS) PenguAV1.0.0.tar) && $(MOVE) `dirname .tmp/PenguAV1.0.0`/PenguAV1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/PenguAV1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents resources/Resources.qrc .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents headers/FileOperations.h headers/ftp.h headers/Initialization.h headers/mainwindow.h headers/Scanner.h headers/SingleApplication.h .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents source/main.cpp source/mainwindow.cpp source/SingleApplication.cpp .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents source/mainwindow.ui .tmp/PenguAV1.0.0/ && (cd `dirname .tmp/PenguAV1.0.0` && $(TAR) PenguAV1.0.0.tar PenguAV1.0.0 && $(COMPRESS) PenguAV1.0.0.tar) && $(MOVE) `dirname .tmp/PenguAV1.0.0`/PenguAV1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/PenguAV1.0.0
 
 
 clean:compiler_clean 
@@ -333,14 +333,14 @@ check: first
 compiler_rcc_make_all: qrc_Resources.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_Resources.cpp
-qrc_Resources.cpp: Resources.qrc \
-		data/Logo.png \
-		data/scanlog.png \
-		data/Gencore.png \
-		data/scanner.png \
-		data/gencoreicn.png \
-		data/settings.png
-	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name Resources Resources.qrc -o qrc_Resources.cpp
+qrc_Resources.cpp: resources/Resources.qrc \
+		resources/data/settings.png \
+		resources/data/gencoreicn.png \
+		resources/data/Logo.png \
+		resources/data/scanlog.png \
+		resources/data/scanner.png \
+		resources/data/Gencore.png
+	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name Resources resources/Resources.qrc -o qrc_Resources.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_Scanner.cpp moc_SingleApplication.cpp
 compiler_moc_header_clean:
@@ -527,7 +527,7 @@ moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/QWidget \
 		/usr/include/qt5/QtCore/QBuffer \
 		/usr/include/qt5/QtCore/qbuffer.h \
-		ftp.h \
+		headers/ftp.h \
 		/usr/include/qt5/QtCore/QCoreApplication \
 		/usr/include/qt5/QtWidgets/QMessageBox \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
@@ -542,14 +542,14 @@ moc_mainwindow.cpp: /usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtCore/qlibrary.h \
 		/usr/include/qt5/QtCore/QThread \
 		/usr/include/qt5/QtCore/qthread.h \
-		Scanner.h \
+		headers/Scanner.h \
 		/usr/include/qt5/QtCore/QObject \
 		/usr/include/qt5/QtCore/QDebug \
 		/usr/include/qt5/QtCore/QDir \
 		/usr/include/qt5/QtCore/qdir.h \
 		/usr/include/qt5/QtCore/qfileinfo.h \
-		mainwindow.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+		headers/mainwindow.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include headers/mainwindow.h -o moc_mainwindow.cpp
 
 moc_Scanner.cpp: /usr/include/qt5/QtCore/QObject \
 		/usr/include/qt5/QtCore/qobject.h \
@@ -672,8 +672,8 @@ moc_Scanner.cpp: /usr/include/qt5/QtCore/QObject \
 		/usr/include/qt5/QtGui/qinputmethod.h \
 		/usr/include/qt5/QtCore/QLibrary \
 		/usr/include/qt5/QtCore/qlibrary.h \
-		Scanner.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include Scanner.h -o moc_Scanner.cpp
+		headers/Scanner.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include headers/Scanner.h -o moc_Scanner.cpp
 
 moc_SingleApplication.cpp: /usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qapplication.h \
@@ -792,16 +792,16 @@ moc_SingleApplication.cpp: /usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtCore/QSharedMemory \
 		/usr/include/qt5/QtCore/qsharedmemory.h \
 		/usr/include/qt5/QtCore/QStringList \
-		SingleApplication.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include SingleApplication.h -o moc_SingleApplication.cpp
+		headers/SingleApplication.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) $(INCPATH) -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include headers/SingleApplication.h -o moc_SingleApplication.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_uic_make_all: ui_mainwindow.h
 compiler_uic_clean:
 	-$(DEL_FILE) ui_mainwindow.h
-ui_mainwindow.h: mainwindow.ui
-	/usr/lib/x86_64-linux-gnu/qt5/bin/uic mainwindow.ui -o ui_mainwindow.h
+ui_mainwindow.h: source/mainwindow.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic source/mainwindow.ui -o ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -813,7 +813,7 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication \
+main.o: source/main.cpp /usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qapplication.h \
 		/usr/include/qt5/QtCore/qcoreapplication.h \
 		/usr/include/qt5/QtCore/qglobal.h \
@@ -927,7 +927,7 @@ main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtGui/qtouchdevice.h \
 		/usr/include/qt5/QtGui/qguiapplication.h \
 		/usr/include/qt5/QtGui/qinputmethod.h \
-		SingleApplication.h \
+		headers/SingleApplication.h \
 		/usr/include/qt5/QtCore/QSharedMemory \
 		/usr/include/qt5/QtCore/qsharedmemory.h \
 		/usr/include/qt5/QtCore/QStringList \
@@ -935,7 +935,7 @@ main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
 		/usr/include/qt5/QtWidgets/qdialog.h \
 		/usr/include/qt5/QtCore/QString \
-		mainwindow.h \
+		headers/mainwindow.h \
 		/usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtWidgets/qtabwidget.h \
@@ -1002,7 +1002,7 @@ main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/QWidget \
 		/usr/include/qt5/QtCore/QBuffer \
 		/usr/include/qt5/QtCore/qbuffer.h \
-		ftp.h \
+		headers/ftp.h \
 		/usr/include/qt5/QtCore/QCoreApplication \
 		/usr/include/qt5/QtCore/QTimer \
 		/usr/include/qt5/QtCore/qtimer.h \
@@ -1014,15 +1014,15 @@ main.o: main.cpp /usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtCore/qlibrary.h \
 		/usr/include/qt5/QtCore/QThread \
 		/usr/include/qt5/QtCore/qthread.h \
-		Scanner.h \
+		headers/Scanner.h \
 		/usr/include/qt5/QtCore/QObject \
 		/usr/include/qt5/QtCore/QDebug \
 		/usr/include/qt5/QtCore/QDir \
 		/usr/include/qt5/QtCore/qdir.h \
 		/usr/include/qt5/QtCore/qfileinfo.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o source/main.cpp
 
-mainwindow.o: mainwindow.cpp mainwindow.h \
+mainwindow.o: source/mainwindow.cpp headers/mainwindow.h \
 		/usr/include/qt5/QtWidgets/QMainWindow \
 		/usr/include/qt5/QtWidgets/qmainwindow.h \
 		/usr/include/qt5/QtWidgets/qwidget.h \
@@ -1205,7 +1205,7 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/usr/include/qt5/QtWidgets/QWidget \
 		/usr/include/qt5/QtCore/QBuffer \
 		/usr/include/qt5/QtCore/qbuffer.h \
-		ftp.h \
+		headers/ftp.h \
 		/usr/include/qt5/QtCore/QCoreApplication \
 		/usr/include/qt5/QtWidgets/QMessageBox \
 		/usr/include/qt5/QtWidgets/qmessagebox.h \
@@ -1220,7 +1220,7 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/usr/include/qt5/QtCore/qlibrary.h \
 		/usr/include/qt5/QtCore/QThread \
 		/usr/include/qt5/QtCore/qthread.h \
-		Scanner.h \
+		headers/Scanner.h \
 		/usr/include/qt5/QtCore/QObject \
 		/usr/include/qt5/QtCore/QDebug \
 		/usr/include/qt5/QtCore/QDir \
@@ -1233,11 +1233,11 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/usr/include/qt5/QtGui/QPalette \
 		/usr/include/qt5/QtWidgets/QScrollBar \
 		/usr/include/qt5/QtWidgets/qscrollbar.h \
-		FileOperations.h \
+		headers/FileOperations.h \
 		/usr/include/qt5/QtCore/QIODevice
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o source/mainwindow.cpp
 
-SingleApplication.o: SingleApplication.cpp /usr/include/qt5/QtCore/QTimer \
+SingleApplication.o: source/SingleApplication.cpp /usr/include/qt5/QtCore/QTimer \
 		/usr/include/qt5/QtCore/qtimer.h \
 		/usr/include/qt5/QtCore/qglobal.h \
 		/usr/include/qt5/QtCore/qconfig.h \
@@ -1297,7 +1297,7 @@ SingleApplication.o: SingleApplication.cpp /usr/include/qt5/QtCore/QTimer \
 		/usr/include/qt5/QtCore/qisenum.h \
 		/usr/include/qt5/QtCore/qobject_impl.h \
 		/usr/include/qt5/QtCore/QByteArray \
-		SingleApplication.h \
+		headers/SingleApplication.h \
 		/usr/include/qt5/QtWidgets/QApplication \
 		/usr/include/qt5/QtWidgets/qapplication.h \
 		/usr/include/qt5/QtCore/qcoreapplication.h \
@@ -1359,7 +1359,7 @@ SingleApplication.o: SingleApplication.cpp /usr/include/qt5/QtCore/QTimer \
 		/usr/include/qt5/QtCore/QSharedMemory \
 		/usr/include/qt5/QtCore/qsharedmemory.h \
 		/usr/include/qt5/QtCore/QStringList
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SingleApplication.o SingleApplication.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SingleApplication.o source/SingleApplication.cpp
 
 qrc_Resources.o: qrc_Resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_Resources.o qrc_Resources.cpp
