@@ -60,11 +60,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
   //Load the database Dynamic linked library (gcvdb.dll)
   //And check if it was found
-  DBLib.setFileName("gcvdb");
+  DBLib.setFileName("mvdb");
   DBLib.load();
   if(DBLib.isLoaded() == false)
   {
-      qDebug() << "Found library";
       QMessageBox errdll;
       errdll.setIcon(QMessageBox::Critical);
       errdll.setText("Some files were not found, or found corrupted!");
