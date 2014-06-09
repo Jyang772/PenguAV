@@ -14,14 +14,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Copyright 2013
 */
 
-#ifndef GCVDB_H
-#define GCVDB_H
+#ifndef MVDB_H
+#define MVDB_H
 
 #include "mvdb_global.h"
 
-class GCVDBSHARED_EXPORT Gcvdb {
+class MVDBSHARED_EXPORT Mvdb {
 public:
-    Gcvdb();
+    Mvdb();
     const char* scanfile(const char* file);
 };
 

@@ -14,15 +14,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Copyright 2013
 */
 
-#ifndef GCVDB_GLOBAL_H
-#define GCVDB_GLOBAL_H
+#ifndef MVDB_GLOBAL_H
+#define MVDB_GLOBAL_H
 
 #include <QtCore/qglobal.h>
 
-#if defined(GCVDB_LIBRARY)
-#  define GCVDBSHARED_EXPORT Q_DECL_EXPORT
+#if defined(MVDB_LIBRARY)
+#  define MVDBSHARED_EXPORT Q_DECL_EXPORT
 #else
-#  define GCVDBSHARED_EXPORT Q_DECL_IMPORT
+#  define MVDBSHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-#endif // GCVDB_GLOBAL_H
+#endif // MVDB_GLOBAL_H

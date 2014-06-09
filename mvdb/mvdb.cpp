@@ -20,7 +20,7 @@ Copyright 2013
 
 #include <QDebug>
 
-Gcvdb::Gcvdb()
+Mvdb::Mvdb()
 {
 }
 
