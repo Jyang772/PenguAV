@@ -14,7 +14,8 @@ HEADERS += headers/FileOperations.h \
            headers/Initialization.h \
            headers/mainwindow.h \
            headers/Scanner.h \
-           headers/SingleApplication.h
+           headers/SingleApplication.h \
+    headers/ScanPE.h
 FORMS += source/mainwindow.ui
 SOURCES += source/main.cpp source/mainwindow.cpp source/SingleApplication.cpp
 RESOURCES += resources/Resources.qrc

@@ -309,7 +309,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/PenguAV1.0.0 || mkdir -p .tmp/PenguAV1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents resources/Resources.qrc .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents headers/FileOperations.h headers/ftp.h headers/Initialization.h headers/mainwindow.h headers/Scanner.h headers/SingleApplication.h .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents source/main.cpp source/mainwindow.cpp source/SingleApplication.cpp .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents source/mainwindow.ui .tmp/PenguAV1.0.0/ && (cd `dirname .tmp/PenguAV1.0.0` && $(TAR) PenguAV1.0.0.tar PenguAV1.0.0 && $(COMPRESS) PenguAV1.0.0.tar) && $(MOVE) `dirname .tmp/PenguAV1.0.0`/PenguAV1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/PenguAV1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents resources/Resources.qrc .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents headers/FileOperations.h headers/ftp.h headers/Initialization.h headers/mainwindow.h headers/Scanner.h headers/SingleApplication.h headers/ScanPE.h .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents source/main.cpp source/mainwindow.cpp source/SingleApplication.cpp .tmp/PenguAV1.0.0/ && $(COPY_FILE) --parents source/mainwindow.ui .tmp/PenguAV1.0.0/ && (cd `dirname .tmp/PenguAV1.0.0` && $(TAR) PenguAV1.0.0.tar PenguAV1.0.0 && $(COMPRESS) PenguAV1.0.0.tar) && $(MOVE) `dirname .tmp/PenguAV1.0.0`/PenguAV1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/PenguAV1.0.0
 
 
 clean:compiler_clean 
@@ -334,12 +334,12 @@ compiler_rcc_make_all: qrc_Resources.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_Resources.cpp
 qrc_Resources.cpp: resources/Resources.qrc \
-		resources/data/settings.png \
+		resources/data/scanlog.png \
+		resources/data/Gencore.png \
+		resources/data/scanner.png \
 		resources/data/gencoreicn.png \
 		resources/data/Logo.png \
-		resources/data/scanlog.png \
-		resources/data/scanner.png \
-		resources/data/Gencore.png
+		resources/data/settings.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name Resources resources/Resources.qrc -o qrc_Resources.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_Scanner.cpp moc_SingleApplication.cpp

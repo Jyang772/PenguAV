@@ -1,6 +1,8 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
+#include "ScanPE.h" //For scanning PE sections
+
 #include <QObject>
 #include <QDebug>
 #include <QDir>
