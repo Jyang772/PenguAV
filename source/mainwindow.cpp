@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
       QMessageBox errdll;
       errdll.setIcon(QMessageBox::Critical);
       errdll.setText("Some files were not found, or found corrupted!");
-      errdll.setInformativeText("gcvdb.dll was not found in PenguAV's directory.");
+      errdll.setInformativeText("mvdb.dll was not found in PenguAV's directory.");
       errdll.exec();
       gcvdbfound = false;
   }

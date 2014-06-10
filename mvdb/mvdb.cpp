@@ -32,7 +32,7 @@ hashwrapper *FileMD5Hash = new md5wrapper();
 
 extern "C" const char* ScanFile(const char* file)
 {
-    qDebug() << "LAWLING";
+    qDebug() << "TESTING";
     std::string filehash = FileMD5Hash->getHashFromFile(file);
 
 
