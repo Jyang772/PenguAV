@@ -10662,23 +10662,40 @@ extern "C" const char* PEscan(const char* filez){
 
 extern "C" const char* ScanFile(const char* filez){
 
-
             QString filetoOpen = QString::fromUtf8(filez);
 
 
             QByteArray temp;
             QFile file(filetoOpen);
             file.open(QIODevice::ReadOnly);
-            temp = file.readAll();
-            //qDebug() << temp.toHex();
+            temp = file.readAll();            
 
+
+
+            Database::Virus TestVirus;
+            TestVirus.name = "TV/tv.56.h";
 
 
            if(temp.toHex().indexOf("564952555300") != -1){
+
+           return TestVirus.name;
+           qDebug() << "FOUND";
+           qDebug() << filetoOpen;
+            file.close();
+           }
+
+           if(temp.toHex().indexOf("563252555300") != -1){
             qDebug() << "FOUND";
             qDebug() << filetoOpen;
             file.close();
            }
+
+           if(temp.toHex().indexOf("5642324555300") != -1){
+            qDebug() << "FOUND";
+            qDebug() << filetoOpen;
+            file.close();
+           }
+
            else
            {
                file.close();

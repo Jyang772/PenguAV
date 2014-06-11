@@ -119,6 +119,7 @@ public slots:
               {
 
                   qDebug() << "MALWARE DETECTED";
+                  MalwareCount += 1;
                   emit checkmal_not_zero(FileStack,checkmal,MalwareCount);
         //          ui->Scandirlog->appendHtml(FileStack + " <b>=> <font color='red'>" + checkmal + "</font></b>");
         //          ui->Scandirlog->appendHtml("");
@@ -127,7 +128,7 @@ public slots:
                   ProcessTasks.push_back(FileName);
         //          ui->Infectedlist->addItem(FileStack);
         //          ui->InfectionList->addItem(checkmal);
-                  MalwareCount += 1;
+
         //          ui->objectsinfected->setStyleSheet("color: rgb(255, 0, 0); font: 75 9pt \"MS Shell Dlg 2\";");
         //          ui->objectsinfected->setNum(MalwareCount);
 

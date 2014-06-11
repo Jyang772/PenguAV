@@ -447,7 +447,11 @@ mvdb.o: mvdb.cpp mvdb.h \
 		/usr/include/qt5/QtCore/qvector.h \
 		/usr/include/qt5/QtCore/qpoint.h \
 		/usr/include/qt5/QtCore/qset.h \
-		/usr/include/qt5/QtCore/qcontiguouscache.h
+		/usr/include/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/qt5/QtCore/QFile \
+		/usr/include/qt5/QtCore/qfile.h \
+		/usr/include/qt5/QtCore/qfiledevice.h \
+		/usr/include/qt5/QtCore/QByteArray
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mvdb.o mvdb.cpp
 
 hl_md5.o: md5/hl_md5.cpp md5/hl_md5.h \

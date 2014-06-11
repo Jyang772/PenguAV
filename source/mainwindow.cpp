@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->ScanWidget->setCurrentIndex(0);
   ui->MainWidget->setCurrentIndex(0);
   ui->note5->setHidden(true);
+  IsQuickScan = true;
   IsProcessScan = false;
   NoOfFilesDownloaded = 0;
 
@@ -170,7 +171,7 @@ void MainWindow::PrepareDirectories()
     if(IsQuickScan == true) filestr = "/home/justin";
 
     qDebug() << IsQuickScan;
-    qDebug() << "walking";
+    //qDebug() << "walking";
 
     //Advanced Stuff! If you are a newbie, don't change!
     //Setup the directories to be walked on. (Not files)
@@ -183,10 +184,11 @@ void MainWindow::PrepareDirectories()
     DirVector = scandir.entryList(QDir::Dirs,QDir::Name);
     Dirlist.push_back(filestr);
     qDebug() << "preparing to scan";
+    qDebug() << "Scan Directory: " << filestr;
 
     while(directory_walker.hasNext())
     {
-        qDebug() << "walking";
+       // qDebug() << "walking";
         QApplication::processEvents();
         directory_walker.next();
         Dirlist.push_back(directory_walker.filePath() + "/");
@@ -357,7 +359,7 @@ void MainWindow::on_Browsedir_clicked()
 #ifdef Q_WS_WIN
     CurrentDir.push_back(QString("\\"));
 #endif
-
+    qDebug() << CurrentDir;
     ui->scandir->setText(CurrentDir);
 }
 
@@ -586,11 +588,13 @@ void MainWindow::on_ProcessScan_clicked()
 
 void MainWindow::on_QuickScanSelect_clicked()
 {
+    IsQuickScan = true;
     ui->ScanWidget->setCurrentIndex(0);
 }
 
 void MainWindow::on_CustomScanSelect_clicked()
 {
+    Dirlist.clear();
     ui->ScanWidget->setCurrentIndex(1);
 }
 
@@ -603,7 +607,8 @@ void MainWindow::on_ProcessScanSelect_clicked()
 //If QuickScan button was clicked, setup a Quick Scan
 void MainWindow::on_QuickScan_clicked()
 {
-    IsQuickScan = true;
+
+    //IsQuickScan = true;
     PrepareDirectories();
 }
 
