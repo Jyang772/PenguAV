@@ -23,11 +23,24 @@ public slots:
 
     void ScanFun(QStringList Dirlist,QStringList ScanDirectory, QStringList MalwareList, QStringList InfectionList, QStringList ProcessTasks, int stop, int prog, int MalwareCount){
             QLibrary DBLib;
-            DBLib.setFileName("gcvdb");
+            DBLib.setFileName("mvdb");
             DBLib.load();
 
             stopping = stop;
             progress = prog;
+
+//            QByteArray temp;
+
+//            QFile file("test");
+//            file.open(QIODevice::ReadOnly);
+//            temp = file.readAll();
+//            //qDebug() << temp.toHex();
+
+//            qDebug() << temp.toHex().indexOf("564952555300");
+//            qDebug() << "FOUND";
+//            file.close();
+
+
 
             while(Dirlist.isEmpty() == false)
             {
@@ -61,7 +74,11 @@ public slots:
               QApplication::processEvents(); //This function processes all of the below function in the While loop in a random thread
 
               QString FileName(ScanDirectory.takeFirst());
-              QString FileStack(DirStack + FileName);
+              QString FileStack;
+              if(DirStack.endsWith("/"))
+              FileStack = (DirStack + FileName);
+              else
+                  FileStack = DirStack + "/" + FileName;
 
               //Send Signal
               emit scanProgress(FileStack,progress);
@@ -71,7 +88,7 @@ public slots:
 
 
               //If the file matches any of the extensions, scan it
-              if ((FileStack.endsWith(".exe",Qt::CaseInsensitive) || FileStack.endsWith(".bat",Qt::CaseInsensitive) || FileStack.endsWith(".html",Qt::CaseInsensitive) || FileStack.endsWith(".php",Qt::CaseInsensitive) || FileStack.endsWith(".pl",Qt::CaseInsensitive) || FileStack.endsWith(".inf",Qt::CaseInsensitive) || FileStack.endsWith(".jar",Qt::CaseInsensitive) || FileStack.endsWith(".js",Qt::CaseInsensitive) || FileStack.endsWith(".java",Qt::CaseInsensitive) || FileStack.endsWith(".py",Qt::CaseInsensitive) || FileStack.endsWith(".dll",Qt::CaseInsensitive)  || FileStack.endsWith(".bmp",Qt::CaseInsensitive)  || FileStack.endsWith(".png",Qt::CaseInsensitive)  || FileStack.endsWith(".jpg",Qt::CaseInsensitive)  || FileStack.endsWith(".gif",Qt::CaseInsensitive)  || FileStack.endsWith(".jpeg",Qt::CaseInsensitive)))
+              if ((FileStack.endsWith(".exe",Qt::CaseInsensitive) || /*FileStack.endsWith(".txt",Qt::CaseInsensitive) ||*/ FileStack.endsWith(".bat",Qt::CaseInsensitive) || FileStack.endsWith(".html",Qt::CaseInsensitive) || FileStack.endsWith(".php",Qt::CaseInsensitive) || FileStack.endsWith(".pl",Qt::CaseInsensitive) || FileStack.endsWith(".inf",Qt::CaseInsensitive) || FileStack.endsWith(".jar",Qt::CaseInsensitive) || FileStack.endsWith(".js",Qt::CaseInsensitive) || FileStack.endsWith(".java",Qt::CaseInsensitive) || FileStack.endsWith(".py",Qt::CaseInsensitive) || FileStack.endsWith(".dll",Qt::CaseInsensitive)  || FileStack.endsWith(".bmp",Qt::CaseInsensitive)  || FileStack.endsWith(".png",Qt::CaseInsensitive)  || FileStack.endsWith(".jpg",Qt::CaseInsensitive)  || FileStack.endsWith(".gif",Qt::CaseInsensitive)  || FileStack.endsWith(".jpeg",Qt::CaseInsensitive)))
               {
                   //Send Signal
                  // emit setStyleSheet("color: rgb(0, 0, 0); font: 75 9pt \"MS Shell Dlg 2\";");
@@ -89,6 +106,7 @@ public slots:
               //The core scan function returns the virus file name if a virus was detected
               //Else it just returns 0
               checkmal = ScanFile(FileStack.toStdString().c_str());
+
               }
 
 
@@ -100,6 +118,7 @@ public slots:
               if(checkmal != 0)
               {
 
+                  qDebug() << "MALWARE DETECTED";
                   emit checkmal_not_zero(FileStack,checkmal,MalwareCount);
         //          ui->Scandirlog->appendHtml(FileStack + " <b>=> <font color='red'>" + checkmal + "</font></b>");
         //          ui->Scandirlog->appendHtml("");

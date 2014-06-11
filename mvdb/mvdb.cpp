@@ -20,6 +20,7 @@ Copyright 2013
 
 #include <QDebug>
 
+
 Mvdb::Mvdb()
 {
 }
@@ -30,10 +31,11 @@ hashwrapper *FileMD5Hash = new md5wrapper();
 //Setup the ScanFile function to be called from external sources
 //extern "C" __declspec(dllexport) const char* ScanFile(const char* file)
 
+/*
 extern "C" const char* ScanFile(const char* file)
 {
-    qDebug() << "TESTING";
     std::string filehash = FileMD5Hash->getHashFromFile(file);
+    qDebug() << QString::fromStdString(filehash);
 
 
     //Virus Database:
@@ -10587,7 +10589,15 @@ return TRSpyBankerXH10.name;
 
 
 
+Database::Virus TestVirus;
+TestVirus.md5 = "4a251a2ef9bbf4ccc35f97aba2c9cbda";
+TestVirus.name = "TV/test";
 
+if (filehash == TestVirus.md5)
+{
+    qDebug() << "Test Detected";
+    return TestVirus.name;
+}
 
 
 
@@ -10628,3 +10638,51 @@ return TRSpyBankerXH10.name;
   //End of Database
 
    }
+*/
+
+#include <QFile>
+#include <QByteArray>
+
+extern "C" const char* PEscan(const char* filez){
+
+
+//        QString filetoOpen = QString::fromUtf8(filez);
+//        QByteArray temp;
+
+//        QFile file(filetoOpen);
+//        file.open(QIODevice::ReadOnly);
+//        temp = file.readAll();
+//        //qDebug() << temp.toHex();
+
+//        qDebug() << temp.toHex().indexOf("564952555300");
+//        qDebug() << "FOUND";
+//        file.close();
+}
+
+
+extern "C" const char* ScanFile(const char* filez){
+
+
+            QString filetoOpen = QString::fromUtf8(filez);
+
+
+            QByteArray temp;
+            QFile file(filetoOpen);
+            file.open(QIODevice::ReadOnly);
+            temp = file.readAll();
+            //qDebug() << temp.toHex();
+
+
+
+           if(temp.toHex().indexOf("564952555300") != -1){
+            qDebug() << "FOUND";
+            qDebug() << filetoOpen;
+            file.close();
+           }
+           else
+           {
+               file.close();
+               return 0;
+           }
+
+}
