@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>PenguAV</Name>
+    <Version>1.0.0</Version>
+    <Title>PenguAV Installer</Title>
+    <Publisher>MicroPenguin</Publisher>
+    <StartMenuDir>PenguAV</StartMenuDir>
+    <TargetDir>@RootDir@InstallationDirectory</TargetDir>
+
+
+<RemoteRepositories>
+     <Repository>
+             <Url>http://micropenguin.net/files/Packages/pv_repo</Url>
+             <Enabled>1</Enabled>
+          
+             <DisplayName>repository</DisplayName>
+     </Repository>
+</RemoteRepositories>
+
+
+</Installer>

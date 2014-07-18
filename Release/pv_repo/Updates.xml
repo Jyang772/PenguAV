@@ -1,0 +1,32 @@
+<Updates>
+ <ApplicationName>{AnyApplication}</ApplicationName>
+ <ApplicationVersion>1.0.0</ApplicationVersion>
+ <Checksum>true</Checksum>
+ <PackageUpdate>
+  <Name>mvdb</Name>
+  <DisplayName>mvdb</DisplayName>
+  <Description>Malware and Virus Database</Description>
+  <Version>1.0.0</Version>
+  <ReleaseDate>2014-06-09</ReleaseDate>
+  <Default>false</Default>
+  <Script>installscript.qs</Script>
+  <UpdateFile CompressedSize="46837" OS="Any" UncompressedSize="147847"/>
+  <DownloadableArchives>content.7z</DownloadableArchives>
+  <SHA1>81fec5fd469f85258870fc2bd5adc51cd0038d80</SHA1>
+ </PackageUpdate>
+ <PackageUpdate>
+  <Name>PenguAV</Name>
+  <DisplayName>PenguAV</DisplayName>
+  <Description>Main Program.</Description>
+  <Version>1.0.0</Version>
+  <ReleaseDate>2014-06-09</ReleaseDate>
+  <Default>script</Default>
+  <Script>installscript.qs</Script>
+  <UpdateFile CompressedSize="83790" OS="Any" UncompressedSize="225184"/>
+  <DownloadableArchives>content.7z</DownloadableArchives>
+  <Licenses>
+   <License name="Public License Agreement" file="license.txt"/>
+  </Licenses>
+  <SHA1>32176474c269f4e976bd3adbcafefd148de14da1</SHA1>
+ </PackageUpdate>
+</Updates>

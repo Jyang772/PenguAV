@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>mvdb</DisplayName>
+    <Description>Malware and Virus Database</Description>
+    <Version>1.0.0</Version>
+    <ReleaseDate>2014-06-09</ReleaseDate>
+
+
+    <Translations>
+
+    </Translations>
+    <Default>false</Default>
+    <Script>installscript.qs</Script>
+</Package>
