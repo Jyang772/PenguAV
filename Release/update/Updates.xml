@@ -1,0 +1,17 @@
+<Updates>
+ <ApplicationName>{AnyApplication}</ApplicationName>
+ <ApplicationVersion>1.0.0</ApplicationVersion>
+ <Checksum>true</Checksum>
+ <PackageUpdate>
+  <Name>Dep</Name>
+  <DisplayName>dependencies</DisplayName>
+  <Description/>
+  <Version>0.1.1-4</Version>
+  <ReleaseDate>2010-09-21</ReleaseDate>
+  <Default>false</Default>
+  <Script>installscript.qs</Script>
+  <UpdateFile CompressedSize="5076047" OS="Any" UncompressedSize="15846440"/>
+  <DownloadableArchives>content.7z</DownloadableArchives>
+  <SHA1>ca513e96dff9fc5c185f06ba4e67ae7c4d8afb60</SHA1>
+ </PackageUpdate>
+</Updates>
